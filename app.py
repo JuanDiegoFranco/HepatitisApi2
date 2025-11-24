@@ -1,10 +1,14 @@
 from flask import Flask, request, jsonify
 from joblib import load
+from pathlib import Path
 from models.predicion import predecir_paciente
 
-# 🔹 Cargar modelo y scaler (nombres exactos de tus archivos)
-model_rl = load(r"models\modelo_regresion_logistica.pkl")
-scaler = load(r"models\scaler.pkl")
+# 🔹 Ruta base donde está este archivo (app.py)
+BASE_DIR = Path(__file__).resolve().parent
+
+# 🔹 Cargar modelo y scaler usando rutas compatibles con Linux/Windows
+model_rl = load(BASE_DIR / "models" / "modelo_regresion_logistica.pkl")
+scaler = load(BASE_DIR / "models" / "scaler.pkl")
 
 app = Flask(__name__)
 
@@ -18,7 +22,7 @@ def calcular_prediccion_endpoint():
 
     print("sadasasdsass")
 
-    # 2️⃣ Todos los campos requeridos (con guion bajo)
+    # 2️⃣ Todos los campos requeridos
     campos_requeridos = [
         "Age", "Sex_encoded", "Estado_Civil_encoded", "Ciudad_encoded", "Steroid",
         "Antivirals", "Fatigue", "Malaise", "Anorexia", "Liver_Big", "Liver_Firm",
